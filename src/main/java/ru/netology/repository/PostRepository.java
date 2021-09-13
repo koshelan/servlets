@@ -7,16 +7,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 // Stub
 public class PostRepository {
 
-    private static Long idCounter = 0L;
+    private AtomicLong idCounter;
     private Map<Long, Post> repository;
 
     public PostRepository() {
         repository = new ConcurrentHashMap<>();
+        idCounter = new AtomicLong(0);
     }
 
     public List<Post> all() {
@@ -30,23 +32,26 @@ public class PostRepository {
 
     public Post save(Post post) {
         if (post.getId() == 0) {
-            post.setId(++idCounter);
-            repository.put(idCounter, post);
+            var id = idCounter.incrementAndGet();
+            post.setId(id);
+            repository.put(id, post);
         } else {
             if (repository.containsKey(post.getId())) {
                 repository.replace(post.getId(), post);
             } else {
-                post.setId(++idCounter);
-                repository.put(idCounter, post);
+                var id = idCounter.incrementAndGet();
+                ;
+                post.setId(id);
+                repository.put(id, post);
             }
         }
         return post;
     }
 
     public void removeById(long id) {
-        if (repository.containsKey(id)){
+        if (repository.containsKey(id)) {
             repository.remove(id);
-        } else{
+        } else {
             throw new NotFoundException();
         }
     }
