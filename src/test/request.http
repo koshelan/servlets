@@ -1,5 +1,4 @@
 GET http://localhost:8080/api/posts
-
 ###
 
 POST http://localhost:8080/api/posts
@@ -22,7 +21,7 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:8080/api/posts
+PUT http://localhost:8080/api/posts
 Content-Type: application/json
 
 {

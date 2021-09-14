@@ -26,34 +26,6 @@ public class MainServlet extends HttpServlet {
         controller = new PostController(service);
     }
 
-
-    @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) {
-        // если деплоились в root context, то достаточно этого
-        try {
-
-            final var method = req.getMethod();
-            // primitive routing
-            switch (method) {
-                case GET:
-                    doGet(req, resp);
-                    break;
-                case POST:
-                    doPost(req, resp);
-                    break;
-                case DELETE:
-                    doDelete(req, resp);
-                    break;
-                default:
-                    resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        }
-    }
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
